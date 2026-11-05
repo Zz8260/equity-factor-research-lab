@@ -16,4 +16,5 @@ jobs:
           cache: pip
       - run: python -m pip install -e ".[dev]"
       - run: python -m pytest -q
+      - run: factorlab catalog --factor S076.hifeq_1s
       - run: factorlab demo --output /tmp/factorlab-ci --days 100 --symbols 20

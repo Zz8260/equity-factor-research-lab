@@ -2,18 +2,16 @@
 
 import argparse
 import importlib.metadata
+import json
 from pathlib import Path
-
-import pandas as pd
-
-from .data import generate_synthetic
-from .evaluation import chronological_split, fit_model, portfolio_metrics, rank_ic, simulate_portfolio
-from .factors import FEATURES, attach_targets, build_factors, prepare_features
-from .report import write_report
-
 
 def run_demo(output="reports", seed=42, days=260, symbols=60, cost_bps=10.0):
     import numpy as np
+    import pandas as pd
+    from .data import generate_synthetic
+    from .evaluation import chronological_split, fit_model, portfolio_metrics, rank_ic, simulate_portfolio
+    from .factors import FEATURES, attach_targets, build_factors, prepare_features
+    from .report import write_report
     if not np.isfinite(cost_bps) or cost_bps < 0:
         raise ValueError("Cost in basis points must be finite and nonnegative.")
     output = Path(output)
@@ -40,14 +38,38 @@ def run_demo(output="reports", seed=42, days=260, symbols=60, cost_bps=10.0):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["demo"])
-    parser.add_argument("--output", default="reports")
-    parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--days", type=int, default=260)
-    parser.add_argument("--symbols", type=int, default=60)
-    parser.add_argument("--cost-bps", type=float, default=10.0)
+    commands = parser.add_subparsers(dest="command", required=True)
+    demo = commands.add_parser("demo", help="Run the eight-factor synthetic demonstration")
+    demo.add_argument("--output", default="reports")
+    demo.add_argument("--seed", type=int, default=42)
+    demo.add_argument("--days", type=int, default=260)
+    demo.add_argument("--symbols", type=int, default=60)
+    demo.add_argument("--cost-bps", type=float, default=10.0)
+    catalog = commands.add_parser("catalog", help="Inspect all archived definitions and their execution status")
+    from .catalog import STATUSES, load_catalog
+    catalog.add_argument("--status", choices=STATUSES)
+    catalog.add_argument("--family", choices=sorted({r["family"] for r in load_catalog()}))
+    catalog.add_argument("--factor", help="Inspect a unique factor ID, including its data and review notes")
+    catalog.add_argument("--json", action="store_true", help="Emit the full definitions as JSON")
     args = parser.parse_args()
-    run_demo(args.output, args.seed, args.days, args.symbols, args.cost_bps)
+    if args.command == "demo":
+        run_demo(args.output, args.seed, args.days, args.symbols, args.cost_bps)
+        return
+    rows = [r for r in load_catalog() if (not args.status or r["status"] == args.status)
+            and (not args.family or r["family"] == args.family)
+            and (not args.factor or r["factor_id"] == args.factor)]
+    if not rows:
+        parser.error("No factor matches the selected ID or filters.")
+    if args.json:
+        print(json.dumps(rows, indent=2))
+    elif args.factor:
+        for key, value in rows[0].items():
+            print(f"{key}: {value}")
+    else:
+        print("Status | Family | Factor ID | Name")
+        for row in rows:
+            print(" | ".join(row[k] for k in ["status", "family", "factor_id", "name"]))
+        print(f"\n{len(rows)} entries. Only status=demo is executable; proxies never replace archive definitions.")
 
 
 if __name__ == "__main__":

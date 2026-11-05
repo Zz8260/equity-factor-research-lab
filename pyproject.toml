@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "equity-factor-research-lab"
-version = "1.0.0"
+version = "1.1.0"
 description = "Reproducible equity factor research with synthetic data and chronological model evaluation."
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.26,<3", "pandas>=2.2,<3", "matplotlib>=3.8,<4", "scikit-learn>=1.4,<2"]
@@ -17,6 +17,9 @@ factorlab = "factorlab.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+factorlab = ["factor_catalog.csv"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
