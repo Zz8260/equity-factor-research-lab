@@ -1,0 +1,46 @@
+{
+  "data_type": "synthetic",
+  "metrics": {
+    "test_sessions": 48,
+    "gross_total_return": 0.033085752695848125,
+    "net_total_return": -0.061508343260479714,
+    "annualized_net_volatility": 0.05636556132381938,
+    "annualized_net_sharpe_zero_rf": -5.881241159878165,
+    "max_net_drawdown": -0.07088803560008905,
+    "average_round_trip_turnover": 1.9999999999999998,
+    "model_mean_rank_ic": 0.01944868945077336
+  },
+  "experiment": {
+    "seed": 42,
+    "days": 260,
+    "symbols": 60,
+    "cost_bps": 10.0,
+    "selected_ridge_alpha": 100.0,
+    "partitions": {
+      "train": {
+        "signal_start": "2023-01-30",
+        "signal_end": "2023-08-15",
+        "last_label_date": "2023-08-16",
+        "rows": 8520
+      },
+      "validation": {
+        "signal_start": "2023-08-17",
+        "signal_end": "2023-10-20",
+        "last_label_date": "2023-10-23",
+        "rows": 2820
+      },
+      "test": {
+        "signal_start": "2023-10-24",
+        "signal_end": "2023-12-28",
+        "last_label_date": "2023-12-29",
+        "rows": 2880
+      }
+    },
+    "versions": {
+      "numpy": "2.5.4",
+      "pandas": "2.3.3",
+      "matplotlib": "3.11.2",
+      "scikit-learn": "1.9.1"
+    }
+  }
+}
