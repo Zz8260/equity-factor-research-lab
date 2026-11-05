@@ -25,4 +25,4 @@ The tests cover deterministic data, basic input checks, residual orthogonality, 
 
 These are synthetic demonstration results. The negative net result illustrates how costs can dominate a weak scoring signal. It is not a result from the original archive or an employer portfolio.
 
-The GitHub Actions workflow is configured for Python 3.10 and 3.12. A local pass does not imply that both hosted jobs have run; consult the Actions page for actual hosted status. The exact local package versions are recorded in `requirements-lock.txt` and `reports/summary.json`.
+The [hosted research checks](https://github.com/Zz8260/equity-factor-research-lab/actions/runs/42000066303) passed on Python 3.10 and 3.12 for implementation commit `ab2cfc3`. Both jobs installed the package, ran all tests and completed a smaller synthetic demo. Consult the Actions page for the status of later commits. The exact local package versions are recorded in `requirements-lock.txt` and `reports/summary.json`.

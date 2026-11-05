@@ -2,6 +2,8 @@
 
 **From exploratory equity signals to a reproducible research workflow.**
 
+[Research roadmap](https://github.com/users/Zz8260/projects/2) · [Methodology](docs/METHODOLOGY.md) · [Validation record](docs/VALIDATION.md) · [Automated checks](https://github.com/Zz8260/equity-factor-research-lab/actions)
+
 A standalone Python portfolio project covering equity factor engineering, industry and size exposure removal, chronological model selection, and cost-aware portfolio diagnostics. Its research themes are grounded in a locally reviewed archive of **77 Python research scripts**.
 
 > **Evidence boundary:** all figures and metrics in this repository use generated synthetic data. The archive contains code, not verifiable performance reports. This project makes no claim about historical investment returns, deployed strategies, employer outcomes, or a count of independently validated factors.
